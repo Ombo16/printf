@@ -13,48 +13,22 @@
  * Return: The number of characters printed
  * (excluding the null byte used to end output to strings).
  */
-int _printf(const char *format, ...) {
+int _printf(const char *format, ...)
+{
+	int count  = 0;
 	va_list args;
-	int count = 0;
-	char c;
-	const char *str;
-	int num;
+	char buffer[BUF_SIZE];
+
 	va_start(args, format);
 
-	while (*format != '\0') {
-		if (*format == '%') {
-			format++;
-			if (*format == '\0')
-				break;
-			if (*format == 'c') {
-				va_arg(args, int);
-				count++;
-			} else if (*format == 's') {
-				const char *str = va_arg(args, const char *);
-				while (*str != '\0') {
-					str++;
-					count++;
-				}
-			} else if (*format == 'd' || *format == 'i') {
-				va_arg(args, int);
-				count++;
-			} else if (*format == '%') {
-				count++;
-			}
-		} else {
-			count++;
-		}
+	if (format == NULL)
+		return (-1);
 
-		format++;
-	}
+	check_format(format, args, &count, buffer);
+
+	if (count > 0)
+		write(1, buffer, count);
 
 	va_end(args);
 	return (count);
-}
-}
-
-int main() {
-	int printed = _printf("This is a test: %c, %s, %%\n", 'A', "Hello, World!");
-	printf("Number of characters printed: %d\n", printed);
-	return (0);
 }
