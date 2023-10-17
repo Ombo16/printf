@@ -34,10 +34,13 @@ int _printf(const char *format, ...) {
 					write(1, str, 1);
 					str++;
 					count++;
-				}
-			} else if (*format == '%') {
-				write(1, "%", 1);
-				count++;
+				}  else if (*format == 'd' || *format == 'i') {
+					int num = va_arg(args, int);
+					fprintf(stdout, "%d", num);
+					count++;
+					} else if (*format == '%') {
+						write(1, "%", 1);
+						count++;
 			}
 		} else {
 			write(1, format, 1);
@@ -48,11 +51,11 @@ int _printf(const char *format, ...) {
 	}
 
 	va_end(args);
-	return count;
+	return (count);
 }
 
 int main() {
 	int printed = _printf("This is a test: %c, %s, %%\n", 'A', "Hello, World!");
 	printf("Number of characters printed: %d\n", printed);
-	return 0;
+	return (0);
 }
