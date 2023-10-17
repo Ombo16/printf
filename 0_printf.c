@@ -27,25 +27,21 @@ int _printf(const char *format, ...) {
 			if (*format == '\0')
 				break;
 			if (*format == 'c') {
-				char c = va_arg(args, int);
-				write(1, &c, 1);
+				va_arg(args, int);
 				count++;
 			} else if (*format == 's') {
 				const char *str = va_arg(args, const char *);
 				while (*str != '\0') {
-					write(1, str, 1);
 					str++;
 					count++;
-				}  else if (*format == 'd' || *format == 'i') {
-					int num = va_arg(args, int);
-					fprintf(stdout, "%d", num);
-					count++;
-					} else if (*format == '%') {
-						write(1, "%", 1);
-						count+=2;
+				}
+			} else if (*format == 'd' || *format == 'i') {
+				va_arg(args, int);
+				count++;
+			} else if (*format == '%') {
+				count++;
 			}
 		} else {
-			write(1, format, 1);
 			count++;
 		}
 
@@ -54,6 +50,7 @@ int _printf(const char *format, ...) {
 
 	va_end(args);
 	return (count);
+}
 }
 
 int main() {
