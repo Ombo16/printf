@@ -27,7 +27,7 @@ int _printf(const char *format, ...)
 			if (*format == 'c')
 			{
 				char c = va_arg(args, int);
-				putchar(c);
+				_putchar(c);
 				count++;
 			}
 			else if (*format == 's')
@@ -35,14 +35,14 @@ int _printf(const char *format, ...)
 				const char *str = va_arg(args, const char *);
 				while (*str != '\0')
 				{
-					putchar(*str);
+					_putchar(*str);
 					str++;
 					count++;
 				}
 			}
 			else if (*format == '%')
 				{
-				putchar('%');
+				_putchar('%');
 				count++;
 				}
 				else
@@ -51,7 +51,7 @@ int _printf(const char *format, ...)
 		}
 		else
 		{
-			putchar(*format);
+			_putchar(*format);
 			count++;
 		}
 
