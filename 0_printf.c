@@ -13,11 +13,6 @@
  * Return: The number of characters printed
  * (excluding the null byte used to end output to strings).
  */
-#include <stdio.h>
-#include <stdarg.h>
-#include "main.h"  // Include your custom header file
-#include <limits.h>
-
 int _printf(const char *format, ...) {
     va_list args;
     va_start(args, format);
