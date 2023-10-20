@@ -2,7 +2,7 @@
 #include <stdarg.h>
 #include <unistd.h>
 #include "main.h"
-#include "check_format"
+
 /**
  * _printf - A simplified version of printf that
  * handles 'c', 's', 'd', 'i', and '%' specifiers.
