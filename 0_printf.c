@@ -13,49 +13,56 @@
  * Return: The number of characters printed
  * (excluding the null byte used to end output to strings).
  */
+#include <stdio.h>
+#include <stdarg.h>
+#include "main.h"  // Include your custom header file
+#include <limits.h>
+
 int _printf(const char *format, ...) {
-	va_list args;
-	va_start(args, format);
+    va_list args;
+    va_start(args, format);
 
-	int count = 0;  // To keep track of the number of characters printed.
+    int count = 0;
 
-	while (*format != '\0') {
-		if (*format == '%') {
-			format++; // Move past the '%'
-			if (*format == '\0') // Handle a '%' at the end of the format string.
-				break;
-			if (*format == 'c') {
-				// Handle character
-				char c = va_arg(args, int);
-				write(1, &c, 1); // Write the character to stdout
-				count++;
-			} else if (*format == 's') {
-				// Handle string
-				const char *str = va_arg(args, const char *);
-				while (*str != '\0') {
-					write(1, str, 1); // Write each character of the string to stdout
-					str++;
-					count++;
-				}
-			} else if (*format == 'd' || *format == 'i') {
-				// Handle decimal or integer
-				int num = va_arg(args, int);
-				dprintf(1, "%d", num); // Print the number to stdout
-				count++;
-			} else if (*format == '%') {
-				// Handle '%' character
-				write(1, "%", 1); // Write '%' to stdout
-				count++;
-			}
-		} else {
-			// Handle regular characters
-			write(1, format, 1); // Write the character to stdout
-			count++;
-		}
+    while (*format != '\0') {
+        if (*format == '%') {
+            format++;
+            if (*format == '\0')
+                break;
+            if (*format == 'c') {
+                char c = va_arg(args, int);
+                putchar(c);
+                count++;
+            } else if (*format == 's') {
+                const char *str = va_arg(args, const char *);
+                while (*str != '\0') {
+                    putchar(*str);
+                    str++;
+                    count++;
+                }
+            } else if (*format == 'd' || *format == 'i') {
+                int num = va_arg(args, int);
+                fprintf(stdout, "%d", num);
+                count++;
+            } else if (*format == '%') {
+                putchar('%');
+                count++;
+            }
+        } else {
+            putchar(*format);
+            count++;
+        }
 
-		format++;
-	}
+        format++;
+    }
 
-	va_end(args);
-	return count;
+    va_end(args);
+    return count;
 }
+
+int main() {
+    int printed = _printf("This is a test: %c, %s, %d, %i, %%\n", 'A', "Hello, World!", 42, -123);
+    printf("Number of characters printed: %d\n", printed);
+    return 0;
+}
+
